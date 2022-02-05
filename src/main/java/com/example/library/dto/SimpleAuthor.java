@@ -3,12 +3,15 @@ package com.example.library.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
-public class AuthorRequest {
+public class SimpleAuthor {
 
-    @NotNull(message = "Field is required")
+    private Long id;
+
     private String name;
+
+    private List<SimpleBook> books;
 }
