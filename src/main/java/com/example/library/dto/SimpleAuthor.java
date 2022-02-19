@@ -12,6 +12,4 @@ public class SimpleAuthor {
     private Long id;
 
     private String name;
-
-    private List<SimpleBook> books;
 }

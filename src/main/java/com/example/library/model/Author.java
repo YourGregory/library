@@ -19,7 +19,7 @@ public class Author {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "author")
-    private Set<Book> book;
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    private Set<Book> books;
 
 }

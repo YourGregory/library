@@ -3,6 +3,8 @@ package com.example.library.mapper;
 import com.example.library.dto.BookRequest;
 import com.example.library.dto.SimpleBook;
 import com.example.library.model.Book;
+import lombok.RequiredArgsConstructor;
+import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,7 +12,11 @@ import java.util.List;
 import java.util.Set;
 
 @Component
+@RequiredArgsConstructor
 public class BookMapper {
+
+    private final AuthorMapper authorMapper;
+    private final BookMapperMapStructImpl mapperStruct;
 
     public Book mapToBookEntity(BookRequest request) {
         Book book = new Book();
@@ -19,34 +25,25 @@ public class BookMapper {
         return book;
     }
 
-    public Book updateBooksField(Book book, BookRequest request) {
+    public void updateBooksField(Book book, BookRequest request) {
         book.setTitle(request.getTitle());
         book.setReleaseDate(request.getReleaseDate());
-
-        return book;
     }
 
-    /*
-        Method to obtain books only with author name, instead of full author.
-        Is used in GetMapping, because author contains books, and books contain author.
-        At the end there was an infinite loop when service tired to obtain book for author
-         and then book for author.
-         In order to prevent StackOverflow Exception we should get list of books only with author name.
-     */
     public SimpleBook toSimpleBook(Book book) {
         SimpleBook simpleBook = new SimpleBook();
 
         simpleBook.setId(book.getId());
         simpleBook.setTitle(book.getTitle());
         simpleBook.setReleaseDate(book.getReleaseDate());
-        simpleBook.setAuthorName(book.getAuthor().getName());
+        simpleBook.setAuthor(authorMapper.toSimpleAuthor(book.getAuthor()));
 
         return simpleBook;
     }
 
     public List<SimpleBook> toSimpleBooksList(Set<Book> booksList) {
         List<SimpleBook> simpleBooksList = new ArrayList<>();
-        for (Book book: booksList) {
+        for (Book book : booksList) {
             SimpleBook simpleBook = toSimpleBook(book);
             simpleBooksList.add(simpleBook);
         }

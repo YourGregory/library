@@ -6,7 +6,8 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class SimpleBook {
+public class
+SimpleBook {
 
     private Long id;
 
@@ -14,5 +15,5 @@ public class SimpleBook {
 
     private LocalDate releaseDate;
 
-    private String authorName;
+    private SimpleAuthor author;
 }

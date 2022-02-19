@@ -10,10 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class AuthorMapper {
 
-    private final BookMapper bookMapper;
 
     public Author toAuthor(AuthorRequest request) {
         Author author = new Author();
@@ -22,18 +20,16 @@ public class AuthorMapper {
         return author;
     }
 
-    public Author updateAuthorsField(Author author, AuthorRequest request) {
+    public void updateAuthorsField(Author author, AuthorRequest request) {
         author.setName(request.getName());
-
-        return author;
     }
 
     public List<SimpleAuthor> toSimpleAuthorsList(List<Author> authorsList) {
         List<SimpleAuthor> simpleAuthorsList = new ArrayList<>();
-        for (Author author : authorsList) {
+        authorsList.forEach(author -> {
             SimpleAuthor simpleAuthor = toSimpleAuthor(author);
             simpleAuthorsList.add(simpleAuthor);
-        }
+        });
         return simpleAuthorsList;
     }
 
@@ -42,7 +38,6 @@ public class AuthorMapper {
 
         simpleAuthor.setId(author.getId());
         simpleAuthor.setName(author.getName());
-        simpleAuthor.setBooks(bookMapper.toSimpleBooksList(author.getBook()));
 
         return simpleAuthor;
     }
